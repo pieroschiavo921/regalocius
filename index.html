@@ -3,39 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test GitHub Pages</title>
-
+  <title>Regole del Quiz</title>
   <style>
     body {
-      background: #111;
-      color: white;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    .box {
+      font-family: 'Arial', sans-serif;
+      background: #f9f9f9;
+      color: #333;
       text-align: center;
-      padding: 40px;
-      border: 1px solid #444;
-      border-radius: 16px;
-      background: #1e1e1e;
+      margin: 0;
+      padding: 0;
     }
-
-    h1 {
-      color: #58a6ff;
+    header {
+      background-color: #ffb6c1;
+      padding: 20px 0;
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+    main {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+    ol {
+      text-align: left;
+      line-height: 1.6;
+    }
+    button {
+      margin-top: 30px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #ff4fa0;
     }
   </style>
 </head>
 <body>
-
-  <div class="box">
-    <h1>Funziona 🎉</h1>
-    <p>Il mio sito è online con GitHub Pages.</p>
-  </div>
-
+  <header>🎉 Benvenuto al Quiz di Compleanno 🎉</header>
+  <main>
+    <h2>Regole del gioco</h2>
+    <ol>
+      <li>Hai una sola possibilità per rispondere a ogni domanda.</li>
+      <li>Non barare! Il divertimento è capire quanto conosci il festeggiato. 😄</li>
+      <li>Alla fine del quiz scoprirai la tua sorpresa!</li>
+    </ol>
+    <button onclick="window.location.href='quiz.html'">OK, cominciamo!</button>
+  </main>
 </body>
 </html>
