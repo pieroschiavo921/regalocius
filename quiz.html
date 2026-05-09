@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz di Cius 🎂</title>
+  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --c1: #FF6B6B;
+      --c2: #FFD93D;
+      --c3: #6BCB77;
+      --c4: #4D96FF;
+      --bg: #FFF8EE;
+      --dark: #2C2C2A;
+      --radius: 18px;
+    }
+
+    body {
+      background: var(--bg);
+      font-family: 'Nunito', sans-serif;
+      color: var(--dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, #FF6B6B 2px, transparent 2px),
+        radial-gradient(circle, #FFD93D 2px, transparent 2px),
+        radial-gradient(circle, #6BCB77 2px, transparent 2px),
+        radial-gradient(circle, #4D96FF 2px, transparent 2px);
+      background-size: 60px 60px, 80px 80px, 70px 70px, 90px 90px;
+      background-position: 0 0, 30px 30px, 15px 45px, 50px 10px;
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 3rem;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: bounceIn 0.7s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    .cake-emoji {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 0.4rem;
+      animation: wiggle 2s ease-in-out infinite;
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    .header h1 {
+      font-family: 'Boogaloo', cursive;
+      font-size: 2.4rem;
+      line-height: 1.1;
+    }
+
+    .header h1 span {
+      display: block;
+      background: linear-gradient(135deg, var(--c4), #6ab0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #888;
+      font-weight: 600;
+    }
+
+    @keyframes bounceIn {
+      0%   { opacity: 0; transform: scale(0.8) translateY(-20px); }
+      70%  { transform: scale(1.05) translateY(4px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* ---- PROGRESS ---- */
+    .progress-wrap {
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.4s forwards 0.3s;
+      opacity: 0;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #999;
+      margin-bottom: 6px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: #e8e0d4;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--c4), #6ab0ff);
+      border-radius: 99px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    /* ---- QUESTION CARD ---- */
+    .question-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 1.4rem 1.25rem;
+      border: 2px solid var(--c4);
+      box-shadow: 4px 4px 0px rgba(0,0,0,0.08);
+      margin-bottom: 1.1rem;
+      animation: fadeUp 0.4s forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .question-num {
+      font-family: 'Boogaloo', cursive;
+      font-size: 0.85rem;
+      color: var(--c4);
+      margin-bottom: 0.4rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .question-text {
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.4;
+      margin-bottom: 1rem;
+    }
+
+    /* ---- OPTIONS ---- */
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.7rem 0.9rem;
+      border-radius: 12px;
+      border: 1.5px solid #e8e0d4;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .option-label:hover {
+      border-color: var(--c4);
+      background: #f0f6ff;
+    }
+
+    .option-label input[type="radio"] {
+      accent-color: var(--c4);
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .option-label:has(input:checked) {
+      border-color: var(--c4);
+      background: #e8f2ff;
+    }
+
+    /* ---- VALIDATION STATE ---- */
+    .option-label.correct {
+      border-color: var(--c3);
+      background: #edfff0;
+    }
+
+    .option-label.wrong {
+      border-color: var(--c1);
+      background: #fff0f0;
+    }
+
+    /* ---- DIVIDER ---- */
+    .divider {
+      text-align: center;
+      margin: 1.5rem 0;
+      font-size: 1.2rem;
+      letter-spacing: 6px;
+      opacity: 0.35;
+    }
+
+    /* ---- CTA ---- */
+    .cta-wrap {
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 0.6s forwards 0.5s;
+    }
+
+    .cta-label {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--c4), #6ab0ff);
+      color: #fff;
+      font-family: 'Boogaloo', cursive;
+      font-size: 1.4rem;
+      letter-spacing: 1px;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      box-shadow: 0 6px 0 #2a6fcc, 0 8px 20px rgba(77,150,255,0.35);
+      transition: transform 0.1s, box-shadow 0.1s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .cta-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #2a6fcc, 0 4px 10px rgba(77,150,255,0.25);
+    }
+
+    .cta-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .score-note {
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header class="header">
+    <span class="cake-emoji">🎂</span>
+    <h1>Quiz di<span>Cius!</span></h1>
+    <p>Rispondi a tutte le domande</p>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-info">
+      <span id="progress-text">0 / 10 risposte</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <div class="questions" id="questions-container"></div>
+
+  <div class="divider">🎈 🎉 🎊</div>
+
+  <div class="cta-wrap">
+    <p class="cta-label">Hai risposto a tutto? Scopri il risultato!</p>
+    <button class="cta-btn" id="submit-btn" disabled onclick="submitQuiz()">Vedi risultato</button>
+    <p class="score-note" id="score-note">Rispondi a tutte le domande per continuare</p>
+  </div>
+
+</div>
+
+<script>
+  /* ============================================================
+     DOMANDE — sostituisci i segnaposto con i tuoi testi
+     - text: testo della domanda
+     - options: array di 4 risposte
+     - correct: indice (0-3) della risposta corretta
+  ============================================================ */
+  const questions = [
+    {
+      text: "DOMANDA_1",
+      options: ["RISPOSTA_1A", "RISPOSTA_1B", "RISPOSTA_1C", "RISPOSTA_1D"],
+      correct: 0
+    },
+    {
+      text: "DOMANDA_2",
+      options: ["RISPOSTA_2A", "RISPOSTA_2B", "RISPOSTA_2C", "RISPOSTA_2D"],
+      correct: 0
+    },
+    {
+      text: "DOMANDA_3",
+      options: ["RISPOSTA_3A", "RISPOSTA_3B", "RISPOSTA_3C", "RISPOSTA_3D"],
+      correct: 0
+    },
+    {
+      text: "DOMANDA_4",
+      options: ["RISPOSTA_4A", "RISPOSTA_4B", "RISPOSTA_4C", "RISPOSTA_4D"],
+      correct: 0
+    },
+    {
+      text: "DOMANDA_5",
+      options: ["RISPOSTA_5A", "RISPOSTA_5B", "RISPOSTA_5C", "RISPOSTA_5D"],
+      correct: 0
+    },
+    {
+      text: "DOMANDA_6",
+      options: ["RISPOSTA_6A", "RISPOSTA_6B", "RISPOSTA_6C", "RISPOSTA_6D"],
+      correct: 0
+    },
+    {
+      text: "DOMANDA_7",
+      options: ["RISPOSTA_7A", "RISPOSTA_7B", "RISPOSTA_7C", "RISPOSTA_7D"],
+      correct: 0
+    },
+    {
+      text: "DOMANDA_8",
+      options: ["RISPOSTA_8A", "RISPOSTA_8B", "RISPOSTA_8C", "RISPOSTA_8D"],
+      correct: 0
+    },
+    {
+      text: "DOMANDA_9",
+      options: ["RISPOSTA_9A", "RISPOSTA_9B", "RISPOSTA_9C", "RISPOSTA_9D"],
+      correct: 0
+    },
+    {
+      text: "DOMANDA_10",
+      options: ["RISPOSTA_10A", "RISPOSTA_10B", "RISPOSTA_10C", "RISPOSTA_10D"],
+      correct: 0
+    }
+  ];
+
+  /* ============================================================
+     REDIRECT — sostituisci con il tuo URL dei risultati
+     Il punteggio viene passato come ?score=X&total=10
+  ============================================================ */
+  const REDIRECT_URL = "https://TUO-URL-RISULTATI.com";
+
+  /* ---- RENDER ---- */
+  const container = document.getElementById('questions-container');
+
+  questions.forEach((q, qi) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.style.animationDelay = (0.1 + qi * 0.07) + 's';
+
+    const optionsHtml = q.options.map((opt, oi) => `
+      <label class="option-label" id="label-${qi}-${oi}">
+        <input type="radio" name="q${qi}" value="${oi}" onchange="onAnswer(${qi}, ${oi})" />
+        ${opt}
+      </label>
+    `).join('');
+
+    card.innerHTML = `
+      <div class="question-num">Domanda ${qi + 1} di ${questions.length}</div>
+      <div class="question-text">${q.text}</div>
+      <div class="options">${optionsHtml}</div>
+    `;
+    container.appendChild(card);
+  });
+
+  /* ---- LOGIC ---- */
+  const answers = new Array(questions.length).fill(null);
+
+  function onAnswer(qi, oi) {
+    answers[qi] = oi;
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const answered = answers.filter(a => a !== null).length;
+    const pct = Math.round((answered / questions.length) * 100);
+    document.getElementById('progress-text').textContent = answered + ' / ' + questions.length + ' risposte';
+    document.getElementById('progress-pct').textContent = pct + '%';
+    document.getElementById('progress-fill').style.width = pct + '%';
+
+    const btn = document.getElementById('submit-btn');
+    const note = document.getElementById('score-note');
+    if (answered === questions.length) {
+      btn.disabled = false;
+      note.textContent = 'Tutto risposto — forza! 🎉';
+    } else {
+      btn.disabled = true;
+      note.textContent = 'Rispondi a tutte le domande per continuare';
+    }
+  }
+
+  function submitQuiz() {
+    let score = 0;
+    answers.forEach((a, qi) => {
+      if (a === questions[qi].correct) score++;
+      questions[qi].options.forEach((_, oi) => {
+        const lbl = document.getElementById('label-' + qi + '-' + oi);
+        if (oi === questions[qi].correct) lbl.classList.add('correct');
+        else if (oi === a && a !== questions[qi].correct) lbl.classList.add('wrong');
+      });
+    });
+
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = score + ' / ' + questions.length + ' — vai ai risultati!';
+    btn.onclick = null;
+
+    setTimeout(() => {
+      window.location.href = REDIRECT_URL + '?score=' + score + '&total=' + questions.length;
+    }, 1200);
+  }
+</script>
+</body>
+</html>
