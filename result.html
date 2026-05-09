@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Sfida di Cius 🎂</title>
+  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --c1: #FF6B6B;
+      --c2: #FFD93D;
+      --c3: #6BCB77;
+      --c4: #4D96FF;
+      --bg: #FFF8EE;
+      --dark: #2C2C2A;
+      --radius: 18px;
+    }
+
+    body {
+      background: var(--bg);
+      font-family: 'Nunito', sans-serif;
+      color: var(--dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, #FF6B6B 2px, transparent 2px),
+        radial-gradient(circle, #FFD93D 2px, transparent 2px),
+        radial-gradient(circle, #6BCB77 2px, transparent 2px),
+        radial-gradient(circle, #4D96FF 2px, transparent 2px);
+      background-size: 60px 60px, 80px 80px, 70px 70px, 90px 90px;
+      background-position: 0 0, 30px 30px, 15px 45px, 50px 10px;
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 3rem;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: bounceIn 0.7s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    .cake-emoji {
+      font-size: 3.5rem;
+      display: block;
+      margin-bottom: 0.4rem;
+      animation: wiggle 2s ease-in-out infinite;
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    .header h1 {
+      font-family: 'Boogaloo', cursive;
+      font-size: 2.6rem;
+      line-height: 1.1;
+    }
+
+    .header h1 span {
+      display: block;
+      background: linear-gradient(135deg, var(--c4), #6ab0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    @keyframes bounceIn {
+      0%   { opacity: 0; transform: scale(0.8) translateY(-20px); }
+      70%  { transform: scale(1.05) translateY(4px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* ---- CONTENT CARD ---- */
+    .content-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 1.75rem 1.5rem;
+      border: 2px solid var(--c4);
+      box-shadow: 4px 4px 0px rgba(0,0,0,0.08);
+      text-align: center;
+      opacity: 0;
+      animation: slideIn 0.5s forwards 0.3s;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .content-card .titolo {
+      font-family: 'Boogaloo', cursive;
+      font-size: 2rem;
+      color: var(--c4);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .content-card .testo {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.7;
+      color: #555;
+    }
+
+    /* ---- DIVIDER ---- */
+    .divider {
+      text-align: center;
+      margin: 1.75rem 0;
+      font-size: 1.2rem;
+      letter-spacing: 6px;
+      opacity: 0.35;
+    }
+
+    /* ---- CTA ---- */
+    .cta-wrap {
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 0.6s forwards 0.7s;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .cta-label {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--c4), #6ab0ff);
+      color: #fff;
+      font-family: 'Boogaloo', cursive;
+      font-size: 1.4rem;
+      letter-spacing: 1px;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      box-shadow: 0 6px 0 #2a6fcc, 0 8px 20px rgba(77,150,255,0.35);
+      transition: transform 0.1s, box-shadow 0.1s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .cta-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #2a6fcc, 0 4px 10px rgba(77,150,255,0.25);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <header class="header">
+      <span class="cake-emoji">🎂</span>
+      <h1>La Sfida di<span>Cius!</span></h1>
+    </header>
+
+    <div class="content-card">
+      <div class="titolo">BENE MA NON BENISSIMO</div>
+      <div class="testo">Sulla base del punteggio totalizzato abbiamo deciso di consegnarti il regalo. Tuttavia quanto riceverai non sarà quello ci aspettavamo davvero, prendilo come un "meglio di niente". L'anno prossimo arriverai più preparato.</div>
+    </div>
+
+    <div class="divider">🎈 🎉 🎊</div>
+
+    <div class="cta-wrap">
+      <a class="cta-btn" href="regalo.jpeg">OTTIENI FILE</a>
+    </div>
+
+  </div>
+</body>
+</html>
